@@ -1,0 +1,22 @@
+language: c
+
+notifications:
+  email: false
+
+jobs:
+  include:
+    # perform a linux build
+    # - services: docker
+    # # and a mac build
+    # - os: osx
+    #   language: shell
+    # and a windows build
+    - os: windows
+      language: shell
+
+install:
+  - docker build --tag babouh/das2c:windows . -f docker/windows/Dockerfile
+
+script:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push babouh/das2c:windows
